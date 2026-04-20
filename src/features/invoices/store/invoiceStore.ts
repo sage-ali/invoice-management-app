@@ -1,6 +1,7 @@
 import { Invoice } from '@/app/invoices/page'
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware'
+import initialInvoiceData from '@/data/data.json'
 
 interface InvoiceStore {
   // State
@@ -57,10 +58,22 @@ export const useInvoiceStore = create<InvoiceStore>()(
 
       setStatusFilter: (filter) => set({ statusFilter: filter }),
 
-      seedInvoices: (invoices) => set({ invoices }),
+      seedInvoices: (newInvoices: Invoice[]) => set({ invoices: newInvoices }),
     }),
     {
       name: 'invoice-storage',
+      storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        // If there are no invoices in the rehydrated state, or if the rehydrated state itself is null/undefined,
+        // then we seed it with the data from data.json.
+        if (!state?.invoices || state.invoices.length === 0) {
+          console.log('No persisted invoices found, seeding from initial data.')
+
+          state?.seedInvoices(initialInvoiceData as Invoice[])
+        } else {
+          console.log('Persisted invoices found, using them.')
+        }
+      },
     }
   )
 )
