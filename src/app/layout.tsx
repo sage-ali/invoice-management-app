@@ -1,15 +1,11 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { League_Spartan } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const leagueSpartan = League_Spartan({
   subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+  weight: ['500', '700'], // The design system uses Medium (Body) and Bold (Headings)
+  variable: '--font-league-spartan',
 })
 
 export const metadata: Metadata = {
@@ -23,11 +19,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="flex min-h-full flex-col">{children}</body>
+    <html lang="en" className={`${leagueSpartan.variable} h-full antialiased`}>
+      {/* We apply the global background (neutral-100 in light mode, dark-bg in dark mode)
+    and the global text colors.
+  */}
+      <body className="text-dark-text dark:bg-dark-bg flex min-h-full flex-col bg-neutral-400 font-sans transition-colors duration-200 dark:text-white">
+        {children}
+      </body>
     </html>
   )
 }

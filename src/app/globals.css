@@ -1,26 +1,93 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Primary Brand Colors */
+  --color-primary: #7c5dfa;
+  --color-primary-hover: #9277ff;
+
+  /* Destructive / Error Colors */
+  --color-danger: #ec5757;
+  --color-danger-hover: #ff9797;
+
+  /* Neutral / Surface Colors */
+  --color-neutral-100: #f8f8fb;
+  --color-neutral-200: #dfe3fa;
+  --color-neutral-300: #888eb0;
+  --color-neutral-400: #7e88c3;
+
+  /* Dark Mode Surface Colors */
+  --color-dark-bg: #141625;
+  --color-dark-surface: #1e2139;
+  --color-dark-hover: #252945;
+  --color-dark-text: #0c0e16;
+
+  /* Font Family */
+  --font-family-sans: var(--font-league-spartan), sans-serif;
+
+  /* Custom Font Sizes with Line Height and Letter Spacing */
+  --font-size-heading-l: 36px;
+  --line-height-heading-l: 33px;
+  --letter-spacing-heading-l: -1px;
+
+  --font-size-heading-m: 24px;
+  --line-height-heading-m: 22px;
+  --letter-spacing-heading-m: -0.75px;
+
+  --font-size-heading-s: 15px;
+  --line-height-heading-s: 24px;
+  --letter-spacing-heading-s: -0.25px;
+
+  --font-size-heading-s-alt: 15px;
+  --line-height-heading-s-alt: 15px;
+  --letter-spacing-heading-s-alt: -0.25px;
+
+  --font-size-body: 13px;
+  --line-height-body: 18px;
+  --letter-spacing-body: -0.1px;
+
+  --font-size-body-alt: 13px;
+  --line-height-body-alt: 15px;
+  --letter-spacing-body-alt: -0.25px;
+
+  /* Box Shadow */
+  --shadow-dropdown: 0 10px 20px rgba(72, 84, 159, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Custom utility classes for typography with combined properties */
+@layer utilities {
+  .text-heading-l {
+    font-size: var(--font-size-heading-l);
+    line-height: var(--line-height-heading-l);
+    letter-spacing: var(--letter-spacing-heading-l);
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .text-heading-m {
+    font-size: var(--font-size-heading-m);
+    line-height: var(--line-height-heading-m);
+    letter-spacing: var(--letter-spacing-heading-m);
+  }
+
+  .text-heading-s {
+    font-size: var(--font-size-heading-s);
+    line-height: var(--line-height-heading-s);
+    letter-spacing: var(--letter-spacing-heading-s);
+  }
+
+  .text-heading-s-alt {
+    font-size: var(--font-size-heading-s-alt);
+    line-height: var(--line-height-heading-s-alt);
+    letter-spacing: var(--letter-spacing-heading-s-alt);
+  }
+
+  .text-body {
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    letter-spacing: var(--letter-spacing-body);
+  }
+
+  .text-body-alt {
+    font-size: var(--font-size-body-alt);
+    line-height: var(--line-height-body-alt);
+    letter-spacing: var(--letter-spacing-body-alt);
+  }
 }
