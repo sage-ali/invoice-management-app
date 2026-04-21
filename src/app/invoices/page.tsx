@@ -22,7 +22,7 @@ interface Address {
   country: string
 }
 
-interface InvoiceItem {
+export interface InvoiceItem {
   name: string
   quantity: number
   price: number
