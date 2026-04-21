@@ -14,12 +14,14 @@
   --color-neutral-200: #dfe3fa;
   --color-neutral-300: #888eb0;
   --color-neutral-400: #7e88c3;
+  --color-white: #ffffff;
 
   /* Dark Mode Surface Colors */
   --color-dark-bg: #141625;
   --color-dark-surface: #1e2139;
   --color-dark-hover: #252945;
   --color-dark-text: #0c0e16;
+  --color-dark-slate: #373b53;
 
   /* Font Family */
   --font-family-sans: var(--font-league-spartan), sans-serif;
