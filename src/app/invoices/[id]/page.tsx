@@ -10,7 +10,7 @@ import { Badge } from '@/components/Badge.component'
 import { Button } from '@/components/Button.component'
 import { Modal } from '@/components/Modal.component' // Assuming you saved the modal here
 import { InvoiceDetailCard } from '../components/InvoiceDetailsCard.component'
-import { Invoice } from '../page'
+import { Invoice } from '../types/store'
 
 export default function InvoiceDetailPage() {
   const params = useParams<{ id: string }>()

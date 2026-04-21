@@ -1,4 +1,4 @@
-import { Invoice } from '@/app/invoices/page'
+import { Invoice } from '@/app/invoices/types/store'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import initialInvoiceData from '@/data/data.json'

@@ -4,7 +4,7 @@ import { useInvoiceStore } from '@/features/invoices/store/invoiceStore'
 import { InvoiceCard } from '@/app/invoices/components/InvoiceCard.component'
 import Image from 'next/image'
 import { Button } from '@/components/Button.component'
-import { InvoiceStatus } from './invoices/page'
+import { InvoiceStatus } from './invoices/types/store'
 import { Select, Option } from '@/components/Select.component'
 import { useState } from 'react'
 

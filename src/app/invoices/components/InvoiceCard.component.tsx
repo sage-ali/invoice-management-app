@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Badge } from '@/components/Badge.component'
 import { formatDate } from '@/features/invoices/utils/dateHelpers'
-import { Invoice } from '../page'
+import { Invoice } from '../types/store'
 
 export const InvoiceCard = ({ invoice }: { invoice: Invoice }) => (
   <Link href={`/invoices/${invoice.id}`}>

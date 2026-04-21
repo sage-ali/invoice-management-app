@@ -1,5 +1,5 @@
 import { formatDate } from '@/features/invoices/utils/dateHelpers'
-import { Invoice, InvoiceItem } from '../page'
+import { Invoice, InvoiceItem } from '../types/store'
 
 export const InvoiceDetailCard = ({ invoice }: { invoice: Invoice }) => {
   return (
