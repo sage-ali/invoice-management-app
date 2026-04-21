@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
-interface Option {
+export interface Option {
   label: string
   value: number | string
 }
@@ -14,6 +14,7 @@ interface SelectProps {
   value: number | string
   onChange: (value: number | string) => void
   className?: string
+  buttonClassName?: string
 }
 
 export const Select = ({
@@ -22,6 +23,7 @@ export const Select = ({
   value,
   onChange,
   className,
+  buttonClassName,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -57,7 +59,8 @@ export const Select = ({
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
           'text-heading-s text-dark-text hover:border-primary focus:border-primary dark:border-dark-hover dark:bg-dark-surface flex w-full items-center justify-between rounded border border-neutral-200 bg-white px-5 py-4 font-bold transition-colors outline-none dark:text-white',
-          isOpen && 'border-primary'
+          isOpen && 'border-primary',
+          buttonClassName
         )}
       >
         {selectedOption?.label}
