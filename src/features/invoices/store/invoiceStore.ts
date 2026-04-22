@@ -6,6 +6,7 @@ import {
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import initialInvoiceData from '@/data/data.json'
+import { generateInvoiceId } from '../utils/generateId'
 
 interface InvoiceStore {
   // State
@@ -35,7 +36,7 @@ export const useInvoiceStore = create<InvoiceStore>()(
             ...state.invoices,
             {
               ...invoice,
-              id: crypto.randomUUID(),
+              id: generateInvoiceId(),
               createdAt: new Date().toISOString(),
             },
           ],
