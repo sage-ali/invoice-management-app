@@ -1,4 +1,8 @@
-import { Invoice } from '@/app/invoices/types/store'
+import {
+  Invoice,
+  InvoiceUpdatePayload,
+  InvoiceCreatePayload,
+} from '@/app/invoices/types/store'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import initialInvoiceData from '@/data/data.json'
@@ -9,8 +13,8 @@ interface InvoiceStore {
   statusFilter: 'all' | 'draft' | 'pending' | 'paid'
 
   // Actions
-  addInvoice: (invoice: Omit<Invoice, 'id' | 'createdAt'>) => void
-  updateInvoice: (id: string, updates: Partial<Invoice>) => void
+  addInvoice: (invoice: InvoiceCreatePayload) => void
+  updateInvoice: (id: string, updates: InvoiceUpdatePayload) => void
   deleteInvoice: (id: string) => void
   markAsPaid: (id: string) => void
   setStatusFilter: (filter: InvoiceStore['statusFilter']) => void

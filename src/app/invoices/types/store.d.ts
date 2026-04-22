@@ -28,3 +28,9 @@ export interface InvoiceItem {
   price: number
   total: number
 }
+
+// Define the specific shape of an update payload
+export type InvoiceUpdatePayload = Partial<Omit<Invoice, 'id' | 'createdAt'>>
+
+// Define the creation payload
+export type InvoiceCreatePayload = Omit<Invoice, 'id' | 'createdAt'>
