@@ -7,6 +7,7 @@ import { Button } from '@/components/Button.component'
 import { InvoiceStatus } from './invoices/types/store'
 import { Select, Option } from '@/components/Select.component'
 import { useState } from 'react'
+import { InvoiceForm } from '@/app/invoices/components/InvoiceForm.component'
 
 export default function InvoicesPage() {
   // Use the store and selectors
@@ -14,6 +15,7 @@ export default function InvoicesPage() {
   const statusFilter = useInvoiceStore((state) => state.statusFilter)
   const setStatusFilter = useInvoiceStore((state) => state.setStatusFilter)
 
+  const [isFormOpen, setIsFormOpen] = useState(false)
   const [filterValue, setFilterValue] = useState('all')
   const selectOptions: Option[] = [
     { label: 'Filter by status', value: 'all' },
@@ -30,64 +32,70 @@ export default function InvoicesPage() {
       : invoices.filter((inv) => inv.status === statusFilter)
 
   return (
-    <div className="mx-auto w-full max-w-3xl px-6 py-8 md:py-16">
-      {/* Header Section */}
-      <header className="mb-16 flex items-center justify-between">
-        <div>
-          <h1 className="text-heading-l text-dark-text font-bold dark:text-white">
-            Invoices
-          </h1>
-          <p className="text-body text-neutral-400 dark:text-neutral-200">
-            {filteredInvoices.length > 0
-              ? `There are ${filteredInvoices.length} total invoices`
-              : 'No invoices'}
-          </p>
-        </div>
-
-        <div className="flex items-center gap-4 md:gap-10">
-          {/* Status Filter (Simple version for now) */}
-          <div className="relative min-w-43.75">
-            <Select
-              label=""
-              options={selectOptions}
-              value={filterValue}
-              buttonClassName="border-0 bg-transparent dark:bg-transparent justify-end"
-              onChange={(val) => {
-                setFilterValue(val as InvoiceStatus)
-                setStatusFilter(val as InvoiceStatus)
-              }}
-            />
+    <>
+      <div className="mx-auto w-full max-w-3xl px-6 py-8 md:py-16">
+        {/* Header Section */}
+        <header className="mb-16 flex items-center justify-between">
+          <div>
+            <h1 className="text-heading-l text-dark-text font-bold dark:text-white">
+              Invoices
+            </h1>
+            <p className="text-body text-neutral-400 dark:text-neutral-200">
+              {filteredInvoices.length > 0
+                ? `There are ${filteredInvoices.length} total invoices`
+                : 'No invoices'}
+            </p>
           </div>
 
-          <Button
-            variant="primary"
-            icon={
-              <svg width="11" height="11" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M6.313 10.023v-3.71h3.71v-2.58h-3.71V.023h-2.58v3.71H.023v2.58h3.71v3.71z"
-                  fill="currentColor"
-                  fillRule="nonzero"
-                />
-              </svg>
-            }
-          >
-            <span className="hidden sm:inline">New Invoice</span>
-            <span className="sm:hidden">New</span>
-          </Button>
-        </div>
-      </header>
+          <div className="flex items-center gap-4 md:gap-10">
+            {/* Status Filter (Simple version for now) */}
+            <div className="relative min-w-43.75">
+              <Select
+                label=""
+                options={selectOptions}
+                value={filterValue}
+                buttonClassName="border-0 bg-transparent dark:bg-transparent justify-end"
+                onChange={(val) => {
+                  setFilterValue(val as InvoiceStatus)
+                  setStatusFilter(val as InvoiceStatus)
+                }}
+              />
+            </div>
 
-      {/* Invoice List or Empty State */}
-      <div className="flex flex-col gap-4">
-        {filteredInvoices.length > 0 ? (
-          filteredInvoices.map((invoice) => (
-            <InvoiceCard key={invoice.id} invoice={invoice} />
-          ))
-        ) : (
-          <EmptyState />
-        )}
+            <Button
+              variant="primary"
+              icon={
+                <svg width="11" height="11" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M6.313 10.023v-3.71h3.71v-2.58h-3.71V.023h-2.58v3.71H.023v2.58h3.71v3.71z"
+                    fill="currentColor"
+                    fillRule="nonzero"
+                  />
+                </svg>
+              }
+              onClick={() => setIsFormOpen(true)}
+            >
+              <span className="hidden sm:inline">New Invoice</span>
+              <span className="sm:hidden">New</span>
+            </Button>
+          </div>
+        </header>
+
+        {/* Invoice List or Empty State */}
+        <div className="flex flex-col gap-4">
+          {filteredInvoices.length > 0 ? (
+            filteredInvoices.map((invoice) => (
+              <InvoiceCard key={invoice.id} invoice={invoice} />
+            ))
+          ) : (
+            <EmptyState />
+          )}
+        </div>
       </div>
-    </div>
+
+      {/* Render the form overlay if open */}
+      {isFormOpen && <InvoiceForm onClose={() => setIsFormOpen(false)} />}
+    </>
   )
 }
 

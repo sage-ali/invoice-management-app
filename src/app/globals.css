@@ -55,6 +55,7 @@
 
   /* Box Shadow */
   --shadow-dropdown: 0 10px 20px rgba(72, 84, 159, 0.25);
+  --shadow-top-light: 0 -10px 20px rgba(0,0,0,0.05);
 }
 
 /* Custom utility classes for typography with combined properties */

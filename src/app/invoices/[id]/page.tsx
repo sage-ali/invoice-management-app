@@ -11,6 +11,7 @@ import { Button } from '@/components/Button.component'
 import { Modal } from '@/components/Modal.component' // Assuming you saved the modal here
 import { InvoiceDetailCard } from '../components/InvoiceDetailsCard.component'
 import { Invoice } from '../types/store'
+import { InvoiceForm } from '@/app/invoices/components/InvoiceForm.component'
 
 export default function InvoiceDetailPage() {
   const params = useParams<{ id: string }>()
@@ -22,6 +23,7 @@ export default function InvoiceDetailPage() {
   const markAsPaid = useInvoiceStore((state) => state.markAsPaid)
 
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [isFormOpen, setIsFormOpen] = useState(false)
 
   if (!invoice) {
     return (
@@ -46,78 +48,88 @@ export default function InvoiceDetailPage() {
   }
 
   return (
-    <div className="mx-auto mb-24 w-full max-w-3xl px-6 py-8 md:mb-0 md:py-16">
-      {/* Back Button */}
-      <button
-        onClick={() => router.back()}
-        className="group text-heading-s text-dark-text mb-8 flex items-center gap-6 font-bold transition-colors hover:text-neutral-400 dark:text-white"
-      >
-        <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M6.342.886L2.114 5.114l4.228 4.228"
-            stroke="#9277FF"
-            strokeWidth="2"
-            fill="none"
-            fillRule="evenodd"
-          />
-        </svg>
-        Go back
-      </button>
+    <>
+      <div className="mx-auto mb-24 w-full max-w-3xl px-6 py-8 md:mb-0 md:py-16">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="group text-heading-s text-dark-text mb-8 flex items-center gap-6 font-bold transition-colors hover:text-neutral-400 dark:text-white"
+        >
+          <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M6.342.886L2.114 5.114l4.228 4.228"
+              stroke="#9277FF"
+              strokeWidth="2"
+              fill="none"
+              fillRule="evenodd"
+            />
+          </svg>
+          Go back
+        </button>
 
-      {/* Header Bar */}
-      <header className="dark:bg-dark-surface mb-6 flex items-center justify-between rounded-lg bg-white p-6 shadow-sm">
-        <div className="flex w-full items-center justify-between md:w-auto md:justify-start md:gap-4">
-          <span className="text-body text-neutral-400 dark:text-neutral-200">
-            Status
-          </span>
-          <Badge status={invoice.status} />
-        </div>
+        {/* Header Bar */}
+        <header className="dark:bg-dark-surface mb-6 flex items-center justify-between rounded-lg bg-white p-6 shadow-sm">
+          <div className="flex w-full items-center justify-between md:w-auto md:justify-start md:gap-4">
+            <span className="text-body text-neutral-400 dark:text-neutral-200">
+              Status
+            </span>
+            <Badge status={invoice.status} />
+          </div>
 
-        {/* Desktop Action Buttons */}
-        <div className="hidden md:block">
+          {/* Desktop Action Buttons */}
+          <div className="hidden md:block">
+            <ActionButtons
+              invoice={invoice}
+              markAsPaid={markAsPaid}
+              setDeleteModalOpen={setDeleteModalOpen}
+              edit={() => setIsFormOpen(true)}
+            />
+          </div>
+        </header>
+
+        {/* Main Content */}
+        <InvoiceDetailCard invoice={invoice} />
+
+        {/* Mobile Action Buttons (Fixed Bottom) */}
+        <div className="dark:bg-dark-surface fixed bottom-0 left-0 flex w-full justify-center bg-white p-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:hidden">
           <ActionButtons
             invoice={invoice}
             markAsPaid={markAsPaid}
             setDeleteModalOpen={setDeleteModalOpen}
-            edit={() => console.log('Edit clicked')}
+            edit={() => setIsFormOpen(true)}
           />
         </div>
-      </header>
 
-      {/* Main Content */}
-      <InvoiceDetailCard invoice={invoice} />
-
-      {/* Mobile Action Buttons (Fixed Bottom) */}
-      <div className="dark:bg-dark-surface fixed bottom-0 left-0 flex w-full justify-center bg-white p-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:hidden">
-        <ActionButtons
-          invoice={invoice}
-          markAsPaid={markAsPaid}
-          setDeleteModalOpen={setDeleteModalOpen}
-          edit={() => console.log('Edit clicked')}
-        />
+        {/* Delete Confirmation Modal */}
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onClose={() => setDeleteModalOpen(false)}
+          title="Confirm Deletion"
+        >
+          <p className="mb-8">
+            Are you sure you want to delete invoice{' '}
+            <span className="font-bold">#{invoice.id}</span>? This action cannot
+            be undone.
+          </p>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="secondary"
+              onClick={() => setDeleteModalOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+          </div>
+        </Modal>
       </div>
 
-      {/* Delete Confirmation Modal */}
-      <Modal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        title="Confirm Deletion"
-      >
-        <p className="mb-8">
-          Are you sure you want to delete invoice{' '}
-          <span className="font-bold">#{invoice.id}</span>? This action cannot
-          be undone.
-        </p>
-        <div className="flex justify-end gap-2">
-          <Button variant="secondary" onClick={() => setDeleteModalOpen(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete}>
-            Delete
-          </Button>
-        </div>
-      </Modal>
-    </div>
+      {/* Render the form in Edit mode by passing the invoice */}
+      {isFormOpen && (
+        <InvoiceForm invoice={invoice} onClose={() => setIsFormOpen(false)} />
+      )}
+    </>
   )
 }
 
