@@ -9,7 +9,7 @@ export const Sidebar = () => {
   const isDark = resolvedTheme === 'dark'
 
   return (
-    <aside className="dark:bg-dark-surface lg:w-25.75lg:flex-col z-50 flex h-18 w-full items-center bg-[#373B53] md:h-20 lg:fixed lg:top-0 lg:left-0 lg:h-screen lg:rounded-r-[20px]">
+    <aside className="dark:bg-dark-surface z-50 flex h-18 w-full items-center bg-[#373B53] md:h-20 lg:fixed lg:top-0 lg:left-0 lg:h-screen lg:w-25.75 lg:flex-col lg:rounded-r-[20px]">
       <div className="bg-primary relative flex h-full w-18 items-center justify-center overflow-hidden rounded-r-[20px] md:w-20 lg:h-25.75 lg:w-25.75">
         <div className="absolute bottom-0 h-1/2 w-full rounded-tl-[20px] bg-[#9277FF]" />
         <div className="relative z-10">
