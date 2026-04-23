@@ -53,7 +53,7 @@ export default function InvoiceDetailPage() {
         {/* Back Button */}
         <button
           onClick={() => router.back()}
-          className="group text-heading-s text-dark-text mb-8 flex items-center gap-6 font-bold transition-colors hover:text-neutral-400 dark:text-white"
+          className="group text-heading-s text-dark-text focus-visible:outline-primary mb-8 flex items-center gap-6 rounded font-bold transition-colors hover:text-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-white"
         >
           <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -91,7 +91,7 @@ export default function InvoiceDetailPage() {
         <InvoiceDetailCard invoice={invoice} />
 
         {/* Mobile Action Buttons (Fixed Bottom) */}
-        <div className="dark:bg-dark-surface fixed bottom-0 left-0 flex w-full justify-center bg-white p-6 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:hidden">
+        <div className="dark:bg-dark-surface shadow-top-light fixed bottom-0 left-0 flex w-full justify-center bg-white p-6 md:hidden">
           <ActionButtons
             invoice={invoice}
             markAsPaid={markAsPaid}

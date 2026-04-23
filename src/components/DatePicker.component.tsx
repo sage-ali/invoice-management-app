@@ -34,9 +34,18 @@ export const DatePicker = ({
       )
         setIsOpen(false)
     }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false)
+      }
+    }
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    document.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen])
 
   const changeMonth = (offset: number) => {
     setViewDate(new Date(viewDate.setMonth(viewDate.getMonth() + offset)))
@@ -82,9 +91,15 @@ export const DatePicker = ({
             <button
               onClick={() => changeMonth(-1)}
               type="button"
-              className="text-primary hover:opacity-50"
+              className="text-primary focus-visible:outline-primary rounded hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2"
+              aria-label="Previous month"
             >
-              <svg width="7" height="11" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="7"
+                height="11"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
                 <path
                   d="M6.712 9.142L2.57 5l4.142-4.142L5.298 0 0 5.298l5.298 5.298z"
                   fill="currentColor"
@@ -101,9 +116,15 @@ export const DatePicker = ({
             <button
               onClick={() => changeMonth(1)}
               type="button"
-              className="text-primary hover:opacity-50"
+              className="text-primary focus-visible:outline-primary rounded hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2"
+              aria-label="Next month"
             >
-              <svg width="7" height="11" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="7"
+                height="11"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
                 <path
                   d="M0 9.142L4.142 5 0 .858 1.414 0 6.712 5.298 1.414 10.596z"
                   fill="currentColor"
@@ -127,12 +148,13 @@ export const DatePicker = ({
                 <button
                   key={d}
                   type="button"
+                  aria-pressed={isSelected}
                   onClick={() => {
                     onChange(new Date(viewDate.setDate(d)))
                     setIsOpen(false)
                   }}
                   className={cn(
-                    'text-heading-s hover:text-primary font-bold dark:text-white',
+                    'text-heading-s hover:text-primary focus-visible:outline-primary rounded font-bold focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-white',
                     isSelected && 'text-primary'
                   )}
                 >
