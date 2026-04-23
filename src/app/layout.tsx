@@ -1,4 +1,4 @@
-import { Sidebar } from '@/app/invoices/components/Sidebar.component'
+import { Sidebar } from '@/components/layout/Sidebar.component'
 import { Metadata } from 'next'
 import { League_Spartan } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'

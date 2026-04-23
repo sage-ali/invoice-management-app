@@ -1,13 +1,13 @@
 'use client'
 
 import { useInvoiceStore } from '@/features/invoices/store/invoiceStore'
-import { InvoiceCard } from '@/app/invoices/components/InvoiceCard.component'
+import { InvoiceCard } from '@/features/invoices/components/InvoiceCard.component'
 import Image from 'next/image'
 import { Button } from '@/components/Button.component'
-import { InvoiceStatus } from './invoices/types/store'
-import { Select, Option } from '@/components/Select.component'
+import { InvoiceStatus } from '../features/invoices/types/store'
+import { Select, SelectOption } from '@/components/Select.component'
 import { useState } from 'react'
-import { InvoiceForm } from '@/app/invoices/components/InvoiceForm.component'
+import { InvoiceForm } from '@/features/invoices/components/InvoiceForm.component'
 
 export default function InvoicesPage() {
   // Use the store and selectors
@@ -17,7 +17,7 @@ export default function InvoicesPage() {
 
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [filterValue, setFilterValue] = useState('all')
-  const selectOptions: Option[] = [
+  const selectOptions: SelectOption[] = [
     { label: 'Filter by status', value: 'all' },
     { label: 'Draft', value: 'draft' },
     { label: 'Pending', value: 'pending' },

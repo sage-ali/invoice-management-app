@@ -2,7 +2,7 @@ import {
   Invoice,
   InvoiceUpdatePayload,
   InvoiceCreatePayload,
-} from '@/app/invoices/types/store'
+} from '@/features/invoices/types/store'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import initialInvoiceData from '@/data/data.json'

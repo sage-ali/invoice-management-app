@@ -9,9 +9,9 @@ import {
 import { Badge } from '@/components/Badge.component'
 import { Button } from '@/components/Button.component'
 import { Modal } from '@/components/Modal.component' // Assuming you saved the modal here
-import { InvoiceDetailCard } from '../components/InvoiceDetailsCard.component'
-import { Invoice } from '../types/store'
-import { InvoiceForm } from '@/app/invoices/components/InvoiceForm.component'
+import { InvoiceDetailCard } from '../../../features/invoices/components/InvoiceDetailsCard.component'
+import { Invoice } from '../../../features/invoices/types/store'
+import { InvoiceForm } from '@/features/invoices/components/InvoiceForm.component'
 
 export default function InvoiceDetailPage() {
   const params = useParams<{ id: string }>()

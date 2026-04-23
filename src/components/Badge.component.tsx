@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { InvoiceStatus } from '@/app/invoices/types/store'
+import { InvoiceStatus } from '@/features/invoices/types/store'
 
 interface BadgeProps {
   status: InvoiceStatus

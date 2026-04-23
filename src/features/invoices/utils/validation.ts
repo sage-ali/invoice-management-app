@@ -1,4 +1,4 @@
-import { InvoiceCreatePayload } from '@/app/invoices/types/store'
+import { InvoiceCreatePayload } from '@/features/invoices/types/store'
 
 // 1. Define all possible value types that can come from the form
 export type FormFieldValue =

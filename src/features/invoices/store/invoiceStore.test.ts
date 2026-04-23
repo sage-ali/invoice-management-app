@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { Invoice } from '@/app/invoices/types/store'
+import { Invoice } from '@/features/invoices/types/store'
 import {
   useInvoiceStore,
   selectFilteredInvoices,
