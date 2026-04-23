@@ -6,8 +6,6 @@ import { useTheme } from 'next-themes'
 export const Sidebar = () => {
   const { resolvedTheme, setTheme } = useTheme()
 
-  const isDark = resolvedTheme === 'dark'
-
   return (
     <aside className="dark:bg-dark-surface z-50 flex h-18 w-full items-center bg-[#373B53] md:h-20 lg:fixed lg:top-0 lg:left-0 lg:h-screen lg:w-25.75 lg:flex-col lg:rounded-r-[20px]">
       <div className="bg-primary relative flex h-full w-18 items-center justify-center overflow-hidden rounded-r-[20px] md:w-20 lg:h-25.75 lg:w-25.75">
@@ -25,9 +23,9 @@ export const Sidebar = () => {
 
       <div className="flex h-full flex-1 items-center justify-end lg:w-full lg:flex-col lg:justify-end">
         <button
-          onClick={() => setTheme(isDark ? 'light' : 'dark')}
+          onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
           className="focus-visible:outline-primary mr-8 mb-0 flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:text-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 lg:mr-0 lg:mb-8"
-          aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+          aria-label="Toggle theme"
           type="button"
         >
           {/* MOON ICON: Hidden in dark mode, block in light mode */}
