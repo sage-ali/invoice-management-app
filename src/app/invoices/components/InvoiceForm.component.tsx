@@ -9,6 +9,11 @@ import { Invoice, InvoiceItem } from '@/app/invoices/types/store'
 import { calculatePaymentDue } from '@/features/invoices/utils/calculatePaymentDue'
 import { DatePicker } from '@/components/DatePicker.component'
 import { formatDate } from '@/features/invoices/utils/dateHelpers'
+import {
+  validateInvoice,
+  ErrorData,
+} from '@/features/invoices/utils/validation'
+import { cn } from '@/lib/utils'
 
 interface InvoiceFormProps {
   invoice?: Invoice // If passed, we are in Edit mode
@@ -49,7 +54,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
   )
 
   // Errors map strictly to boolean
-  const [errors, setErrors] = useState<Record<string, boolean>>({})
+  const [errors, setErrors] = useState<ErrorData>({})
   const [selectedDate, setSelectedDate] = useState(new Date())
 
   // Strictly typed item handler
@@ -90,21 +95,21 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
     setFormData({ ...formData, items: newItems, total: newTotal })
   }
 
-  const validate = (strict: boolean): boolean => {
-    const newErrors: Record<string, boolean> = {}
-    if (strict) {
-      if (!formData.clientName.trim()) newErrors.clientName = true
-      if (!formData.clientEmail.trim()) newErrors.clientEmail = true
-      if (!formData.description.trim()) newErrors.description = true
-      if (!formData.senderAddress.street.trim()) newErrors.senderAddress = true
-    }
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
   const handleSave = (status: 'draft' | 'pending') => {
     const isStrict = status === 'pending'
-    if (!validate(isStrict)) return
+
+    // Run validation
+    const validationErrors = validateInvoice(formData, isStrict)
+    console.log(validationErrors)
+
+    // If there are errors, set them and block submission
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+
+    // Clear errors if successful
+    setErrors({})
 
     // Calculate Payment Due Date safely
     const paymentDue = calculatePaymentDue(
@@ -130,6 +135,36 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
       addInvoice(newInvoice as Invoice)
     }
     onClose()
+  }
+
+  // Helper for nested objects (like senderAddress and clientAddress)
+  const getNestedError = (
+    errors: ErrorData,
+    parent: string,
+    child: string
+  ): string | undefined => {
+    const parentNode = errors[parent]
+    if (
+      parentNode &&
+      typeof parentNode === 'object' &&
+      !Array.isArray(parentNode)
+    ) {
+      return parentNode[child] as string | undefined
+    }
+    return undefined
+  }
+
+  // Helper for arrays of objects (like items)
+  const getItemError = (
+    errors: ErrorData,
+    index: number,
+    field: string
+  ): string | undefined => {
+    const itemsNode = errors.itemsList // Assuming 'itemsList' is the key you used in validation
+    if (Array.isArray(itemsNode) && itemsNode[index]) {
+      return itemsNode[index][field] as string | undefined
+    }
+    return undefined
   }
 
   return (
@@ -176,7 +211,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                     },
                   })
                 }
-                error={errors.senderAddress ? "can't be empty" : undefined}
+                error={getNestedError(errors, 'senderAddress', 'street')}
               />
               <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                 <TextInput
@@ -191,6 +226,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                       },
                     })
                   }
+                  error={getNestedError(errors, 'senderAddress', 'city')}
                 />
                 <TextInput
                   label="Post Code"
@@ -204,6 +240,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                       },
                     })
                   }
+                  error={getNestedError(errors, 'senderAddress', 'postCode')}
                 />
                 <TextInput
                   label="Country"
@@ -218,6 +255,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                       },
                     })
                   }
+                  error={getNestedError(errors, 'senderAddress', 'country')}
                 />
               </div>
             </div>
@@ -231,7 +269,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setFormData({ ...formData, clientName: e.target.value })
                 }
-                error={errors.clientName ? "can't be empty" : undefined}
+                error={getNestedError(errors, 'senderAddress', 'street')}
               />
               <TextInput
                 label="Client's Email"
@@ -240,7 +278,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setFormData({ ...formData, clientEmail: e.target.value })
                 }
-                error={errors.clientEmail ? "can't be empty" : undefined}
+                error={errors.clientEmail as string | undefined}
               />
               <TextInput
                 label="Street Address"
@@ -254,6 +292,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                     },
                   })
                 }
+                error={getNestedError(errors, 'clientAddress', 'street')}
               />
               <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
                 <TextInput
@@ -268,6 +307,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                       },
                     })
                   }
+                  error={getNestedError(errors, 'clientAddress', 'city')}
                 />
                 <TextInput
                   label="Post Code"
@@ -281,6 +321,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                       },
                     })
                   }
+                  error={getNestedError(errors, 'clientAddress', 'postCode')}
                 />
                 <TextInput
                   label="Country"
@@ -295,6 +336,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                       },
                     })
                   }
+                  error={getNestedError(errors, 'clientAddress', 'country')}
                 />
               </div>
             </div>
@@ -330,14 +372,28 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setFormData({ ...formData, description: e.target.value })
               }
-              error={errors.description ? "can't be empty" : undefined}
+              error={errors.description as string | undefined}
             />
 
             {/* Item List */}
             <div className="flex flex-col gap-6">
-              <h3 className="text-heading-m font-bold text-[#777F98]">
-                Item List
-              </h3>
+              <div className="flex items-center justify-between">
+                <h3
+                  className={cn(
+                    'text-heading-m font-bold text-[#777F98]',
+                    errors.items ? 'text-danger' : ''
+                  )}
+                >
+                  Item List
+                </h3>
+
+                {/* The styled error span pushed to the right */}
+                {errors.items && (
+                  <span className="text-body text-danger text-xs font-bold transition-all">
+                    {errors.items as string}
+                  </span>
+                )}
+              </div>
               {formData.items.map((item, index) => (
                 <div
                   key={index}
@@ -350,6 +406,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleItemChange(index, 'name', e.target.value)
                     }
+                    error={getItemError(errors, index, 'name')}
                   />
                   <TextInput
                     label="Qty."
@@ -358,6 +415,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleItemChange(index, 'quantity', e.target.value)
                     }
+                    error={getItemError(errors, index, 'quantity')}
                   />
                   <TextInput
                     label="Price"
@@ -366,6 +424,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleItemChange(index, 'price', e.target.value)
                     }
+                    error={getItemError(errors, index, 'price')}
                   />
                   <div className="flex flex-col gap-2">
                     <label className="text-body text-neutral-400">Total</label>
