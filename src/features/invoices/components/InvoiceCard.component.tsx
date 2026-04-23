@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Badge } from '@/components/Badge.component'
 import { formatDate } from '@/features/invoices/utils/dateHelpers'
+import Image from 'next/image'
 import { Invoice } from '../types/store'
 
 export const InvoiceCard = ({ invoice }: { invoice: Invoice }) => (
@@ -43,15 +44,12 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice }) => (
           <Badge status={invoice.status} />
           {/* Arrow is hidden on mobile in some versions, but keeping it for consistency */}
           <span className="hidden md:block">
-            <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M1 1l4 4-4 4"
-                stroke="#7C5DFA"
-                strokeWidth="2"
-                fill="none"
-                fillRule="evenodd"
-              />
-            </svg>
+            <Image
+              src="/assets/icon-arrow-right.svg"
+              alt="View Invoice"
+              width={7}
+              height={10}
+            />
           </span>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useId } from 'react'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 export interface SelectOption {
   label: React.ReactNode
@@ -137,23 +138,16 @@ export const Select = ({
         <span className="flex-1 text-left whitespace-nowrap">
           {selectedOption?.label || 'Select an option'}
         </span>
-        <svg
+        <Image
+          src="/assets/icon-arrow-down.svg"
+          alt="Arrow"
+          width={11}
+          height={7}
           className={cn(
             'shrink-0 transition-transform duration-200',
             isOpen && 'rotate-180'
           )}
-          width="11"
-          height="7"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M1 1l4.228 4.228L9.456 1"
-            stroke="#7C5DFA"
-            strokeWidth="2"
-            fill="none"
-            fillRule="evenodd"
-          />
-        </svg>
+        />
       </button>
 
       {/* Dropdown Menu (Listbox) */}

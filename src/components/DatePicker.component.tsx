@@ -4,6 +4,7 @@ import {
   getDaysInMonth,
   formatDate,
 } from '@/features/invoices/utils/dateHelpers'
+import Image from 'next/image'
 
 interface DatePickerProps {
   label: string
@@ -70,18 +71,13 @@ export const DatePicker = ({
         }`}
       >
         {formatDate(value)}
-        <svg
+        <Image
+          src="/assets/icon-calendar.svg"
+          alt="Calendar"
+          width={16}
+          height={16}
           className="ml-2.5"
-          width="16"
-          height="16"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14 2h-.667V.667A.667.667 0 0012.667 0H12a.667.667 0 00-.667.667V2H4.667V.667A.667.667 0 004 0h-.667a.667.667 0 00-.666.667V2H2C.897 2 0 2.897 0 4v10c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm.667 12c0 .367-.3.667-.667.667H2A.668.668 0 011.333 14V7h13.334v7z"
-            fill="#7E88C3"
-            fillRule="nonzero"
-          />
-        </svg>
+        />
       </button>
 
       {isOpen && (
@@ -94,18 +90,12 @@ export const DatePicker = ({
               className="text-primary focus-visible:outline-primary rounded hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2"
               aria-label="Previous month"
             >
-              <svg
-                width="7"
-                height="11"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6.712 9.142L2.57 5l4.142-4.142L5.298 0 0 5.298l5.298 5.298z"
-                  fill="currentColor"
-                  fillRule="nonzero"
-                />
-              </svg>
+              <Image
+                src="/assets/icon-arrow-left.svg"
+                alt="Previous"
+                width={7}
+                height={10}
+              />
             </button>
             <span className="text-heading-s font-bold dark:text-white">
               {viewDate.toLocaleDateString('en-GB', {
@@ -119,18 +109,12 @@ export const DatePicker = ({
               className="text-primary focus-visible:outline-primary rounded hover:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2"
               aria-label="Next month"
             >
-              <svg
-                width="7"
-                height="11"
-                xmlns="http://www.w3.org/2000/svg"
-                aria-hidden="true"
-              >
-                <path
-                  d="M0 9.142L4.142 5 0 .858 1.414 0 6.712 5.298 1.414 10.596z"
-                  fill="currentColor"
-                  fillRule="nonzero"
-                />
-              </svg>
+              <Image
+                src="/assets/icon-arrow-right.svg"
+                alt="Next"
+                width={7}
+                height={10}
+              />
             </button>
           </div>
 

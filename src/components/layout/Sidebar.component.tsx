@@ -13,15 +13,13 @@ export const Sidebar = () => {
       <div className="bg-primary relative flex h-full w-18 items-center justify-center overflow-hidden rounded-r-[20px] md:w-20 lg:h-25.75 lg:w-25.75">
         <div className="absolute bottom-0 h-1/2 w-full rounded-tl-[20px] bg-[#9277FF]" />
         <div className="relative z-10">
-          <svg
-            width="100%"
-            height="100%"
-            viewBox="100 100 825 825"
-            className="block h-8 w-8 transition-all duration-200 md:h-10 md:w-10 lg:h-15 lg:w-15"
-          >
-            {/* This references an ID inside an external file */}
-            <use href="/assets/pac.svg#pac-logo" />
-          </svg>
+          <Image
+            src="/assets/logo.svg"
+            alt="Logo"
+            width={28}
+            height={26}
+            className="block h-auto w-7 transition-all duration-200 md:w-8 lg:w-10"
+          />
         </div>
       </div>
 
@@ -32,26 +30,24 @@ export const Sidebar = () => {
           aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
           type="button"
         >
-          {/* SUN ICON: Hidden in dark mode, block in light mode */}
+          {/* MOON ICON: Hidden in dark mode, block in light mode */}
           <div className="dark:hidden">
-            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M9.373 15.392a8.12 8.12 0 007.364-4.793 8.12 8.12 0 01-8.112.012 8.12 8.12 0 01-4.045-7.14c0-1.502.414-2.907 1.132-4.106a8.12 8.12 0 00-4.062 7.15c0 4.485 3.636 8.12 8.12 8.12c1.42 0 2.748-.364 3.903-1.003a8.12 8.12 0 01-4.303 1.76z"
-                fill="#7E88C3"
-                fillRule="nonzero"
-              />
-            </svg>
+            <Image
+              src="/assets/icon-moon.svg"
+              alt="Dark Mode"
+              width={20}
+              height={20}
+            />
           </div>
 
-          {/* MOON ICON: Hidden in light mode, block in dark mode */}
+          {/* SUN ICON: Hidden in light mode, block in dark mode */}
           <div className="hidden dark:block">
-            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M10 0a10 10 0 110 20 10 10 0 010-20zm0 2.5a7.5 7.5 0 100 15 7.5 7.5 0 000-15z"
-                fill="#858BB2"
-                fillRule="nonzero"
-              />
-            </svg>
+            <Image
+              src="/assets/icon-sun.svg"
+              alt="Light Mode"
+              width={20}
+              height={20}
+            />
           </div>
         </button>
 

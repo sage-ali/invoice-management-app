@@ -59,7 +59,21 @@
 }
 
 /* Custom utility classes for typography with combined properties */
+@layer base {
+  body {
+    cursor: url('/assets/custom-cursor.svg') 4 4, auto;
+  }
+
+  a, button, [role="button"], [role="option"], input[type="submit"], input[type="button"], input[type="reset"], label {
+    cursor: url('/assets/custom-pointer.svg') 12 7, pointer;
+  }
+}
+
 @layer utilities {
+  .cursor-pointer {
+    cursor: url('/assets/custom-pointer.svg') 12 7, pointer !important;
+  }
+
   .text-heading-l {
     font-size: var(--font-size-heading-l);
     line-height: var(--line-height-heading-l);

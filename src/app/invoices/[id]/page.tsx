@@ -9,6 +9,7 @@ import {
 import { Badge } from '@/components/Badge.component'
 import { Button } from '@/components/Button.component'
 import { Modal } from '@/components/Modal.component' // Assuming you saved the modal here
+import Image from 'next/image'
 import { InvoiceDetailCard } from '../../../features/invoices/components/InvoiceDetailsCard.component'
 import { Invoice } from '../../../features/invoices/types/store'
 import { InvoiceForm } from '@/features/invoices/components/InvoiceForm.component'
@@ -55,15 +56,12 @@ export default function InvoiceDetailPage() {
           onClick={() => router.back()}
           className="group text-heading-s text-dark-text focus-visible:outline-primary mb-8 flex items-center gap-6 rounded font-bold transition-colors hover:text-neutral-400 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-white"
         >
-          <svg width="7" height="10" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M6.342.886L2.114 5.114l4.228 4.228"
-              stroke="#9277FF"
-              strokeWidth="2"
-              fill="none"
-              fillRule="evenodd"
-            />
-          </svg>
+          <Image
+            src="/assets/icon-arrow-left.svg"
+            alt="Go back"
+            width={7}
+            height={10}
+          />
           Go back
         </button>
 

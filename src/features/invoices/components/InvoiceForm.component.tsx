@@ -9,6 +9,7 @@ import { Invoice, InvoiceItem } from '@/features/invoices/types/store'
 import { calculatePaymentDue } from '@/features/invoices/utils/calculatePaymentDue'
 import { DatePicker } from '@/components/DatePicker.component'
 import { formatDate } from '@/features/invoices/utils/dateHelpers'
+import Image from 'next/image'
 import {
   validateInvoice,
   ErrorData,
@@ -472,19 +473,14 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                   <button
                     type="button"
                     onClick={() => removeItem(index)}
-                    className="hover:text-danger mt-8 text-[#888EB0] transition-colors"
+                    className="mt-8 transition-opacity hover:opacity-50"
                   >
-                    <svg
-                      width="13"
-                      height="16"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M11.583 3.556v10.666c0 .982-.795 1.778-1.778 1.778H2.694a1.777 1.777 0 01-1.777-1.778V3.556h10.666zM8.427 1.111v1.667h4.934v1.666H1.14V2.778h4.934V1.111C6.074.498 6.572 0 7.185 0h1.14c.614 0 1.112.498 1.112 1.111z"
-                        fill="currentColor"
-                        fillRule="nonzero"
-                      />
-                    </svg>
+                    <Image
+                      src="/assets/icon-delete.svg"
+                      alt="Delete"
+                      width={13}
+                      height={16}
+                    />
                   </button>
                 </div>
               ))}
