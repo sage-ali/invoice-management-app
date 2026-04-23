@@ -21,11 +21,14 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
     if (!dialog) return
 
     if (isOpen) {
-      // .showModal() creates the native backdrop and traps focus automatically
-      dialog.showModal()
+      if (!dialog.open) {
+        dialog.showModal()
+      }
       document.body.style.overflow = 'hidden' // Prevent underlying page scroll
     } else {
-      dialog.close()
+      if (dialog.open) {
+        dialog.close()
+      }
       document.body.style.overflow = 'unset'
     }
 
@@ -34,34 +37,10 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
     }
   }, [isOpen])
 
-  // Listen for the native "Escape" key close event
-  useEffect(() => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-
-    // The 'cancel' event fires when the user presses Escape natively on a dialog
-    const handleCancel = (e: Event) => {
-      e.preventDefault() // Prevent immediate DOM close so React can handle state
-      onClose()
-    }
-
-    dialog.addEventListener('cancel', handleCancel)
-    return () => dialog.removeEventListener('cancel', handleCancel)
-  }, [onClose])
-
   // Handle clicking the native backdrop to close
   const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    const dialog = dialogRef.current
-    if (!dialog) return
-
-    // Calculate if the click was outside the bounds of the dialog content box
-    const dialogDimensions = dialog.getBoundingClientRect()
-    if (
-      e.clientX < dialogDimensions.left ||
-      e.clientX > dialogDimensions.right ||
-      e.clientY < dialogDimensions.top ||
-      e.clientY > dialogDimensions.bottom
-    ) {
+    // If the target is the dialog itself (the backdrop), close it.
+    if (e.target === e.currentTarget) {
       onClose()
     }
   }
@@ -73,6 +52,10 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       aria-modal="true"
       aria-labelledby={titleId}
       onClick={handleBackdropClick}
+      onCancel={(e) => {
+        e.preventDefault()
+        onClose()
+      }}
       className={cn(
         // Dialog Base
         'shadow-dropdown dark:bg-dark-surface w-full max-w-[480px] rounded-lg bg-white p-8 sm:p-12',
