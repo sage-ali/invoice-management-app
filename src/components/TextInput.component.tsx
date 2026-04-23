@@ -4,11 +4,19 @@ import React from 'react'
 interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
   error?: string
+  inputClassName?: string
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
   (
-    { label, error, className = '', id, ...props }: TextInputProps,
+    {
+      label,
+      error,
+      className = '',
+      inputClassName = '',
+      id,
+      ...props
+    }: TextInputProps,
     ref: React.Ref<HTMLInputElement>
   ) => {
     // Generate a unique ID if one isn't provided, useful for a11y
@@ -17,16 +25,16 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     // Generate a unique ID for the error message
     const errorId = error ? `${inputId}-error` : ''
 
-    const baseInputStyles = `w-full bg-white px-5 text-heading-s font-bold text-dark-text py-4 border border-neutral-200 transition-colors duration-200 placeholder:text-neutral-300 hover:border-primary focus:border-primary dark:bg-dark-surface dark:text-neutral-100 dark:focus:border-dark-hover dark:border-dark-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`
+    const baseInputStyles = `w-full bg-white px-5 text-heading-s font-bold text-dark-text py-4 border border-neutral-200 outline-none transition-colors duration-200 placeholder:text-neutral-300 hover:border-primary focus:border-primary dark:bg-dark-surface dark:text-neutral-100 dark:focus:border-dark-hover dark:border-dark-hover`
 
     const errorInputStyles = error
-      ? 'border-danger focus:border-danger dark:border-danger dark:focus:border-danger focus-visible:outline-danger'
-      : 'focus-visible:outline-primary'
+      ? 'border-danger focus:border-danger dark:border-danger dark:focus:border-danger'
+      : ''
 
     return (
       <div
         className={cn(
-          'flex h-18 w-full max-w-full flex-col gap-2 md:max-w-126',
+          'flex w-full max-w-full flex-col gap-2 md:max-w-126',
           className
         )}
       >
@@ -56,7 +64,7 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
           ref={ref}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={cn(baseInputStyles, errorInputStyles)}
+          className={cn(baseInputStyles, errorInputStyles, inputClassName)}
           {...props}
         />
       </div>

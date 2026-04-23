@@ -67,6 +67,16 @@
   a, button, [role="button"], [role="option"], input[type="submit"], input[type="button"], input[type="reset"], label {
     cursor: url('/assets/custom-pointer.svg') 12 7, pointer;
   }
+
+  /* Hide number input spin buttons */
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
 }
 
 @layer utilities {
