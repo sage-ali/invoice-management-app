@@ -28,7 +28,7 @@ export const Sidebar = () => {
       <div className="flex h-full flex-1 items-center justify-end lg:w-full lg:flex-col lg:justify-end">
         <button
           onClick={() => setTheme(isDark ? 'light' : 'dark')}
-          className="focus-visible:outline-primary rounded-full px-6 py-6 transition-colors hover:text-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 lg:px-0 lg:py-8"
+          className="focus-visible:outline-primary mr-8 mb-0 flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:text-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-2 lg:mr-0 lg:mb-8"
           aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
           type="button"
         >
