@@ -47,7 +47,7 @@ export const Button = ({
       {...props}
     >
       {icon && (
-        <span className="text-primary mr-4 flex h-8 w-8 items-center justify-center rounded-full bg-white">
+        <span className="text-primary mr-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white md:mr-4">
           {icon}
         </span>
       )}

@@ -31,7 +31,7 @@ export const InvoiceCard = ({ invoice }: { invoice: Invoice }) => (
       {/* Bottom Section (Mobile: Flex Row / Tablet+: Flex Row) */}
       <div className="mt-4 flex items-center justify-between md:mt-0 md:gap-8">
         {/* Total Price */}
-        <span className="text-heading-m text-dark-text font-bold dark:text-white">
+        <span className="text-dark-text text-[20px] leading-8 font-bold tracking-[-0.5px] md:text-[24px] dark:text-white">
           £{' '}
           {invoice.total.toLocaleString(undefined, {
             minimumFractionDigits: 2,

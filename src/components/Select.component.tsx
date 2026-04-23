@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useId } from 'react'
 import { cn } from '@/lib/utils'
 
 export interface SelectOption {
-  label: string
+  label: React.ReactNode
   value: string | number
 }
 
@@ -127,17 +127,19 @@ export const Select = ({
             : undefined
         }
         className={cn(
-          'text-heading-s text-dark-text dark:bg-dark-surface flex w-full items-center justify-between rounded border bg-white px-5 py-4 font-bold transition-colors duration-200 dark:text-white',
+          'text-heading-s text-dark-text dark:bg-dark-surface flex w-full items-center justify-between gap-1 rounded border bg-white px-5 py-4 font-bold transition-colors duration-200 dark:text-white',
           'hover:border-primary focus:border-primary dark:border-dark-hover dark:focus:border-primary border-neutral-200',
           'focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-2',
           isOpen && 'border-primary dark:border-primary',
           buttonClassName
         )}
       >
-        <span>{selectedOption?.label || 'Select an option'}</span>
+        <span className="flex-1 text-left whitespace-nowrap">
+          {selectedOption?.label || 'Select an option'}
+        </span>
         <svg
           className={cn(
-            'transition-transform duration-200',
+            'shrink-0 transition-transform duration-200',
             isOpen && 'rotate-180'
           )}
           width="11"

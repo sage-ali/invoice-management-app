@@ -9,15 +9,15 @@ export const Sidebar = () => {
   const isDark = resolvedTheme === 'dark'
 
   return (
-    <aside className="dark:bg-dark-surface z-50 flex h-18 w-full items-center bg-[#373B53] lg:fixed lg:top-0 lg:left-0 lg:h-full lg:w-25.75 lg:flex-col lg:rounded-r-[20px]">
-      <div className="bg-primary relative flex h-full w-18 items-center justify-center overflow-hidden rounded-r-[20px] lg:h-25.75 lg:w-full">
+    <aside className="dark:bg-dark-surface lg:w-25.75lg:flex-col z-50 flex h-18 w-full items-center bg-[#373B53] md:h-20 lg:fixed lg:top-0 lg:left-0 lg:h-screen lg:rounded-r-[20px]">
+      <div className="bg-primary relative flex h-full w-18 items-center justify-center overflow-hidden rounded-r-[20px] md:w-20 lg:h-25.75 lg:w-25.75">
         <div className="absolute bottom-0 h-1/2 w-full rounded-tl-[20px] bg-[#9277FF]" />
         <div className="relative z-10">
           <svg
             width="100%"
             height="100%"
             viewBox="100 100 825 825"
-            className="block h-8 w-8 transition-all duration-200 lg:h-15 lg:w-15"
+            className="block h-8 w-8 transition-all duration-200 md:h-10 md:w-10 lg:h-15 lg:w-15"
           >
             {/* This references an ID inside an external file */}
             <use href="/assets/pac.svg#pac-logo" />

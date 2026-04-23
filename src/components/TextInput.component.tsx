@@ -24,7 +24,12 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
       : 'focus-visible:outline-primary'
 
     return (
-      <div className={cn('flex flex-col gap-2', className)}>
+      <div
+        className={cn(
+          'flex h-18 w-full max-w-full flex-col gap-2 md:max-w-126',
+          className
+        )}
+      >
         <div className="flex items-center justify-between">
           <label
             htmlFor={inputId}

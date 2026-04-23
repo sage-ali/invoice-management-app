@@ -127,9 +127,9 @@ export const InvoiceDetailCard = ({ invoice }: { invoice: Invoice }) => {
         </div>
 
         {/* Grand Total Footer */}
-        <div className="flex items-center justify-between bg-[#373B53] p-6 md:px-8 md:py-6 dark:bg-[#0C0E16]">
+        <div className="flex h-20 w-full items-center justify-between rounded-b-lg bg-[#373B53] px-6 md:px-8 dark:bg-[#0C0E16]">
           <span className="text-body text-white">Amount Due</span>
-          <span className="text-heading-l font-bold text-white">
+          <span className="text-[20px] leading-8 font-bold tracking-[-0.5px] text-white md:text-[24px]">
             £{' '}
             {invoice.total.toLocaleString(undefined, {
               minimumFractionDigits: 2,

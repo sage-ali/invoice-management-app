@@ -207,7 +207,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
 
           // -- YOUR DRAWER STYLES --
           // z-40 so the Sidebar (z-50) is visible above it on large screens
-          'fixed top-[72px] left-0 z-40 flex h-[calc(100vh-72px)] w-full max-w-full flex-col transition-transform duration-300 md:max-w-2xl md:rounded-r-3xl lg:top-0 lg:h-screen lg:w-[calc(672px+103px)] lg:max-w-none lg:pl-[103px]',
+          'fixed top-18 left-0 z-40 flex h-[calc(100vh-72px)] w-full max-w-full flex-col transition-transform duration-300 md:top-20 md:h-[calc(100vh-80px)] md:w-154 md:rounded-r-3xl lg:top-0 lg:h-screen lg:w-179.75 lg:max-w-none lg:pl-25.75',
           'dark:bg-dark-bg bg-white',
 
           // Optional: slide-in animation when the dialog opens
