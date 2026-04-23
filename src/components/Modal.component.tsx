@@ -58,8 +58,8 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       }}
       className={cn(
         // Dialog Base
-        'shadow-dropdown dark:bg-dark-surface w-full max-w-[480px] rounded-lg bg-white p-8 sm:p-12',
-        'backdrop:bg-black/50 backdrop:backdrop-blur-sm',
+        'shadow-dropdown dark:bg-dark-surface w-full max-w-120 rounded-lg bg-white p-8 sm:p-12',
+        'backdrop:bg-black/50',
         'm-auto border-0 p-0 text-left outline-none',
         // Smooth animations when it opens (Requires tailwindcss-animate plugin, or custom CSS)
         'open:animate-in open:fade-in-0 open:zoom-in-95 backdrop:open:animate-in backdrop:open:fade-in-0'
