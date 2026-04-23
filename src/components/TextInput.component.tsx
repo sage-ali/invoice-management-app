@@ -17,13 +17,11 @@ const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(
     // Generate a unique ID for the error message
     const errorId = error ? `${inputId}-error` : ''
 
-    // Base styles applied to the input field
-    const baseInputStyles = `w-full bg-white px-5 text-heading-s font-bold text-dark-text py-4 outline-none border border-neutral-200 transition-colors duration-200 placeholder:text-neutral-300 hover:border-primary focus:border-primary dark:bg-dark-surface dark:text-neutral-100 dark:focus:border-dark-hover dark:border-dark-hover`
+    const baseInputStyles = `w-full bg-white px-5 text-heading-s font-bold text-dark-text py-4 border border-neutral-200 transition-colors duration-200 placeholder:text-neutral-300 hover:border-primary focus:border-primary dark:bg-dark-surface dark:text-neutral-100 dark:focus:border-dark-hover dark:border-dark-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2`
 
-    // Error styles override base styles if an error string is passed
     const errorInputStyles = error
-      ? 'border-danger focus:border-danger dark:border-danger dark:focus:border-danger'
-      : ''
+      ? 'border-danger focus:border-danger dark:border-danger dark:focus:border-danger focus-visible:outline-danger'
+      : 'focus-visible:outline-primary'
 
     return (
       <div className={cn('flex flex-col gap-2', className)}>

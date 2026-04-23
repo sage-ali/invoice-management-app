@@ -4,8 +4,11 @@ import { formatDate } from '@/features/invoices/utils/dateHelpers'
 import { Invoice } from '../types/store'
 
 export const InvoiceCard = ({ invoice }: { invoice: Invoice }) => (
-  <Link href={`/invoices/${invoice.id}`}>
-    <div className="group hover:border-primary dark:bg-dark-surface flex flex-col rounded-lg bg-white p-6 shadow-sm transition-all hover:border md:flex-row md:items-center md:justify-between">
+  <Link
+    href={`/invoices/${invoice.id}`}
+    className="focus-visible:outline-primary block rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2"
+  >
+    <div className="group dark:bg-dark-surface hover:border-primary flex flex-col rounded-lg border border-transparent bg-white p-6 shadow-sm transition-colors duration-200 md:flex-row md:items-center md:justify-between">
       {/* Top Section (Mobile: Grid / Tablet+: Flex) */}
       <div className="grid grid-cols-2 items-center gap-4 md:flex md:gap-6 lg:gap-11">
         {/* ID - Column 1 Row 1 */}

@@ -35,7 +35,7 @@ export const Button = ({
   }
 
   const baseStyles =
-    'inline-flex items-center justify-center rounded-full text-heading-s-alt font-bold transition-colors duration-200 focus:outline-none'
+    'inline-flex items-center justify-center rounded-full text-heading-s-alt font-bold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary'
 
   // Padding changes slightly if there is an icon
   const paddingStyles = icon ? 'py-2 pr-4 pl-2' : 'py-4 px-6'

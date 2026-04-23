@@ -58,8 +58,13 @@ export const Select = ({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'text-heading-s text-dark-text hover:border-primary focus:border-primary dark:border-dark-hover dark:bg-dark-surface flex w-full items-center justify-between rounded border border-neutral-200 bg-white px-5 py-4 font-bold transition-colors outline-none dark:text-white',
-          isOpen && 'border-primary',
+          // 1. Base Layout & Typography
+          'text-heading-s text-dark-text dark:bg-dark-surface flex w-full items-center justify-between rounded border bg-white px-5 py-4 font-bold transition-colors duration-200 dark:text-white',
+          'hover:border-primary focus:border-primary dark:border-dark-hover dark:focus:border-primary border-neutral-200',
+          'focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-2',
+          isOpen && 'border-primary dark:border-primary',
+
+          // 5. Custom Overrides (always goes last)
           buttonClassName
         )}
       >

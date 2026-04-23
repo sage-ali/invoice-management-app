@@ -54,7 +54,11 @@ export const DatePicker = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="text-heading-s text-dark-text hover:border-primary dark:border-dark-hover dark:bg-dark-surface flex w-full items-center justify-between rounded border border-neutral-200 bg-white px-5 py-4 font-bold transition-colors dark:text-white"
+        className={`text-heading-s text-dark-text dark:bg-dark-surface focus-visible:outline-primary flex w-full items-center justify-between rounded border bg-white px-5 py-4 font-bold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-white ${
+          isOpen
+            ? 'border-primary dark:border-primary' // Keeps the border purple while the calendar is open
+            : 'hover:border-primary focus:border-primary dark:border-dark-hover dark:focus:border-primary border-neutral-200'
+        }`}
       >
         {formatDate(value)}
         <svg
