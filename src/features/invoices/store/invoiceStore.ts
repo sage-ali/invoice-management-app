@@ -1,5 +1,6 @@
 import {
   Invoice,
+  InvoiceStatus,
   InvoiceUpdatePayload,
   InvoiceCreatePayload,
 } from '@/features/invoices/types/store'
@@ -11,14 +12,14 @@ import { generateInvoiceId } from '../utils/generateId'
 interface InvoiceStore {
   // State
   invoices: Invoice[]
-  statusFilter: 'all' | 'draft' | 'pending' | 'paid'
+  statusFilter: InvoiceStatus[]
 
   // Actions
   addInvoice: (invoice: InvoiceCreatePayload) => void
   updateInvoice: (id: string, updates: InvoiceUpdatePayload) => void
   deleteInvoice: (id: string) => void
   markAsPaid: (id: string) => void
-  setStatusFilter: (filter: InvoiceStore['statusFilter']) => void
+  setStatusFilter: (filter: InvoiceStatus[]) => void
 
   // Initialization
   seedInvoices: (invoices: Invoice[]) => void
@@ -28,7 +29,7 @@ export const useInvoiceStore = create<InvoiceStore>()(
   persist(
     (set) => ({
       invoices: [],
-      statusFilter: 'all',
+      statusFilter: [],
 
       addInvoice: (invoice) =>
         set((state) => ({
@@ -78,6 +79,11 @@ export const useInvoiceStore = create<InvoiceStore>()(
         } else {
           console.log('Persisted invoices found, using them.')
         }
+
+        // Ensure migration from old string-based 'all' filter to array-based filter
+        if (state && typeof state.statusFilter === 'string') {
+          state.setStatusFilter([])
+        }
       },
     }
   )
@@ -85,8 +91,8 @@ export const useInvoiceStore = create<InvoiceStore>()(
 
 // Selectors (use these in components)
 export const selectFilteredInvoices = (state: InvoiceStore) => {
-  if (state.statusFilter === 'all') return state.invoices
-  return state.invoices.filter((inv) => inv.status === state.statusFilter)
+  if (state.statusFilter.length === 0) return state.invoices
+  return state.invoices.filter((inv) => state.statusFilter.includes(inv.status))
 }
 
 export const selectInvoiceById = (id: string) => (state: InvoiceStore) =>

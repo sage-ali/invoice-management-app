@@ -4,10 +4,9 @@ import { useInvoiceStore } from '@/features/invoices/store/invoiceStore'
 import { InvoiceCard } from '@/features/invoices/components/InvoiceCard.component'
 import Image from 'next/image'
 import { Button } from '@/components/Button.component'
-import { InvoiceStatus } from '../features/invoices/types/store'
-import { Select, SelectOption } from '@/components/Select.component'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { InvoiceForm } from '@/features/invoices/components/InvoiceForm.component'
+import { FilterDropdown } from '@/features/invoices/components/FilterDropdown.component'
 
 export default function InvoicesPage() {
   // Use the store and selectors
@@ -16,28 +15,12 @@ export default function InvoicesPage() {
   const setStatusFilter = useInvoiceStore((state) => state.setStatusFilter)
 
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [filterValue, setFilterValue] = useState('all')
-  const selectOptions: SelectOption[] = [
-    {
-      label: (
-        <>
-          <span className="hidden md:inline">Filter by status</span>
-          <span className="md:hidden">Filter</span>
-        </>
-      ),
-      value: 'all',
-    },
-    { label: 'Draft', value: 'draft' },
-    { label: 'Pending', value: 'pending' },
-    { label: 'Paid', value: 'paid' },
-  ]
 
-  // Perform the filter here.
-  // It only re-runs when invoices or statusFilter actually change.
-  const filteredInvoices =
-    statusFilter === 'all'
-      ? invoices
-      : invoices.filter((inv) => inv.status === statusFilter)
+  // Compute filtered invoices
+  const filteredInvoices = useMemo(() => {
+    if (!statusFilter || statusFilter.length === 0) return invoices
+    return invoices.filter((inv) => statusFilter.includes(inv.status))
+  }, [invoices, statusFilter])
 
   return (
     <>
@@ -63,19 +46,11 @@ export default function InvoicesPage() {
           </div>
 
           <div className="flex items-center gap-4 md:gap-10">
-            {/* Status Filter (Simple version for now) */}
-            <div className="relative w-18.75 md:w-32.5">
-              <Select
-                label=""
-                options={selectOptions}
-                value={filterValue}
-                buttonClassName="border-0 bg-transparent dark:bg-transparent justify-end px-0"
-                onChange={(val) => {
-                  setFilterValue(val as InvoiceStatus)
-                  setStatusFilter(val as InvoiceStatus)
-                }}
-              />
-            </div>
+            {/* Status Filter Component */}
+            <FilterDropdown
+              selectedStatuses={statusFilter}
+              onChange={setStatusFilter}
+            />
 
             <Button
               variant="primary"
