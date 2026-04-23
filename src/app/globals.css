@@ -30,8 +30,8 @@
 
   /* Custom Font Sizes with Line Height and Letter Spacing */
   --font-size-heading-l: 36px;
-  --line-height-heading-l: 33px;
-  --letter-spacing-heading-l: -1px;
+  --line-height-heading-l: 36px;
+  --letter-spacing-heading-l: -1.13px;
 
   --font-size-heading-m: 24px;
   --line-height-heading-m: 22px;
@@ -46,7 +46,7 @@
   --letter-spacing-heading-s-alt: -0.25px;
 
   --font-size-body: 13px;
-  --line-height-body: 18px;
+  --line-height-body: 15px;
   --letter-spacing-body: -0.1px;
 
   --font-size-body-alt: 13px;

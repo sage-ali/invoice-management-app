@@ -49,7 +49,7 @@ export default function InvoiceDetailPage() {
 
   return (
     <>
-      <div className="mx-auto mb-24 w-full max-w-3xl px-6 py-8 md:mb-0 md:py-16">
+      <div className="mx-auto mb-24 w-full max-w-182.5 px-6 py-8 md:mb-0 md:py-16">
         {/* Back Button */}
         <button
           onClick={() => router.back()}
@@ -68,8 +68,8 @@ export default function InvoiceDetailPage() {
         </button>
 
         {/* Header Bar */}
-        <header className="dark:bg-dark-surface mb-6 flex items-center justify-between rounded-lg bg-white p-6 shadow-sm">
-          <div className="flex w-full items-center justify-between md:w-auto md:justify-start md:gap-4">
+        <header className="dark:bg-dark-surface mb-6 flex h-22 w-full max-w-182.5 items-center justify-between rounded-lg bg-white px-8 py-6 shadow-sm">
+          <div className="flex h-10 w-full items-center justify-between md:w-auto md:justify-start md:gap-4">
             <span className="text-body text-neutral-400 dark:text-neutral-200">
               Status
             </span>
@@ -147,7 +147,7 @@ const ActionButtons = ({
   setDeleteModalOpen,
   edit,
 }: ActionButtonsProps) => (
-  <div className="flex items-center gap-2 md:gap-4">
+  <div className="flex w-full flex-wrap items-center gap-2 md:h-12 md:w-77.25 md:flex-nowrap md:justify-end">
     <Button variant="secondary" onClick={edit}>
       Edit
     </Button>

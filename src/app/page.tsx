@@ -18,7 +18,15 @@ export default function InvoicesPage() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [filterValue, setFilterValue] = useState('all')
   const selectOptions: SelectOption[] = [
-    { label: 'Filter by status', value: 'all' },
+    {
+      label: (
+        <>
+          <span className="hidden md:inline">Filter by status</span>
+          <span className="md:hidden">Filter</span>
+        </>
+      ),
+      value: 'all',
+    },
     { label: 'Draft', value: 'draft' },
     { label: 'Pending', value: 'pending' },
     { label: 'Paid', value: 'paid' },
@@ -33,28 +41,35 @@ export default function InvoicesPage() {
 
   return (
     <>
-      <div className="mx-auto w-full max-w-3xl px-6 py-8 md:py-16">
+      <div className="mx-auto w-full max-w-182.5 px-6 py-8 md:py-16">
         {/* Header Section */}
         <header className="mb-16 flex items-center justify-between">
           <div>
             <h1 className="text-heading-l text-dark-text font-bold dark:text-white">
               Invoices
             </h1>
-            <p className="text-body text-neutral-400 dark:text-neutral-200">
-              {filteredInvoices.length > 0
-                ? `There are ${filteredInvoices.length} total invoices`
-                : 'No invoices'}
+            <p className="text-body font-medium text-neutral-400 dark:text-neutral-200">
+              <span className="hidden md:inline">
+                {filteredInvoices.length > 0
+                  ? `There are ${filteredInvoices.length} total invoices`
+                  : 'No invoices'}
+              </span>
+              <span className="md:hidden">
+                {filteredInvoices.length > 0
+                  ? `${filteredInvoices.length} invoices`
+                  : 'No invoices'}
+              </span>
             </p>
           </div>
 
           <div className="flex items-center gap-4 md:gap-10">
             {/* Status Filter (Simple version for now) */}
-            <div className="relative min-w-43.75">
+            <div className="relative w-18.75 md:w-32.5">
               <Select
                 label=""
                 options={selectOptions}
                 value={filterValue}
-                buttonClassName="border-0 bg-transparent dark:bg-transparent justify-end"
+                buttonClassName="border-0 bg-transparent dark:bg-transparent justify-end px-0"
                 onChange={(val) => {
                   setFilterValue(val as InvoiceStatus)
                   setStatusFilter(val as InvoiceStatus)
@@ -64,6 +79,7 @@ export default function InvoicesPage() {
 
             <Button
               variant="primary"
+              className="h-11 w-22.5 md:h-12 md:w-37.5"
               icon={
                 <svg width="11" height="11" xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -75,8 +91,8 @@ export default function InvoicesPage() {
               }
               onClick={() => setIsFormOpen(true)}
             >
-              <span className="hidden sm:inline">New Invoice</span>
-              <span className="sm:hidden">New</span>
+              <span className="hidden md:inline">New Invoice</span>
+              <span className="md:hidden">New</span>
             </Button>
           </div>
         </header>
@@ -102,14 +118,16 @@ export default function InvoicesPage() {
 function EmptyState() {
   return (
     <div className="mt-20 flex flex-col items-center text-center">
-      <Image
-        src="/assets/illustration-empty.svg"
-        alt="No invoices found"
-        className="mb-10 w-auto"
-        width={75}
-        height={75}
-      />
-      <h2 className="text-heading-m text-dark-text font-bold dark:text-white">
+      <div className="mb-10 w-60.25">
+        <Image
+          src="/assets/illustration-empty.svg"
+          alt="No invoices found"
+          className="h-auto w-full"
+          width={241}
+          height={200}
+        />
+      </div>
+      <h2 className="text-dark-text text-[24px] leading-none font-bold tracking-[-0.75px] dark:text-white">
         There is nothing here
       </h2>
       <p className="text-body mt-6 max-w-55 text-neutral-400 dark:text-neutral-200">
