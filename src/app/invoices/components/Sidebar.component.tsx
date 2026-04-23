@@ -27,7 +27,7 @@ export const Sidebar = () => {
 
       <div className="flex h-full flex-1 items-center justify-end lg:w-full lg:flex-col lg:justify-end">
         <button
-          onClick={() => setTheme(isDark ? 'dark' : 'light')}
+          onClick={() => setTheme(isDark ? 'light' : 'dark')}
           className="px-6 py-6 transition-colors hover:text-neutral-200 lg:px-0 lg:py-8"
           aria-label="Toggle theme"
           type="button"
