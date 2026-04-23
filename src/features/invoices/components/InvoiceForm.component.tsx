@@ -9,7 +9,6 @@ import { Invoice, InvoiceItem } from '@/features/invoices/types/store'
 import { calculatePaymentDue } from '@/features/invoices/utils/calculatePaymentDue'
 import { DatePicker } from '@/components/DatePicker.component'
 import { formatDate } from '@/features/invoices/utils/dateHelpers'
-import Image from 'next/image'
 import {
   validateInvoice,
   ErrorData,
@@ -173,6 +172,10 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
     }
     return undefined
   }
+
+  // Determine if there are global errors to display at the bottom
+  const hasFieldErrors = Object.keys(errors).some((key) => key !== 'items')
+  const hasEmptyItemsArray = !!errors.items
 
   // Helper for arrays of objects (like items)
   const getItemError = (
@@ -435,11 +438,11 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
               {formData.items.map((item, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-[1fr_4fr] items-center gap-4 md:grid-cols-[4fr_1fr_2fr_2fr_min-content]"
+                  className="grid grid-cols-[64px_1fr_1fr_40px] items-center gap-4 md:grid-cols-[4fr_1.5fr_2.5fr_1fr_40px]"
                 >
                   <TextInput
                     label="Item Name"
-                    className="col-span-2 md:col-span-1"
+                    className="col-span-4 md:col-span-1"
                     value={item.name}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleItemChange(index, 'name', e.target.value)
@@ -449,6 +452,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                   <TextInput
                     label="Qty."
                     type="number"
+                    inputClassName="px-2 text-center"
                     value={item.quantity}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleItemChange(index, 'quantity', e.target.value)
@@ -458,6 +462,7 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                   <TextInput
                     label="Price"
                     type="number"
+                    inputClassName="px-3"
                     value={item.price}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       handleItemChange(index, 'price', e.target.value)
@@ -473,14 +478,17 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
                   <button
                     type="button"
                     onClick={() => removeItem(index)}
-                    className="mt-8 transition-opacity hover:opacity-50"
+                    className="mt-6 ml-3"
                   >
-                    <Image
-                      src="/assets/icon-delete.svg"
-                      alt="Delete"
-                      width={13}
-                      height={16}
-                    />
+                    <svg
+                      width="13"
+                      height="16"
+                      viewBox="0 0 13 16"
+                      className="hover:text-danger cursor-pointer text-[#888EB0] transition-all duration-200 hover:scale-125"
+                    >
+                      {/* Point to the file path, followed by a hashtag and the ID you gave it */}
+                      <use href="/assets/icon-delete.svg#delete-icon" />
+                    </svg>
                   </button>
                 </div>
               ))}
@@ -491,6 +499,22 @@ export const InvoiceForm = ({ invoice, onClose }: InvoiceFormProps) => {
               >
                 + Add New Item
               </Button>
+
+              {/* Global Error Messages */}
+              {(hasFieldErrors || hasEmptyItemsArray) && (
+                <div className="mt-4 flex flex-col gap-1">
+                  {hasFieldErrors && (
+                    <p className="text-danger text-[10px] font-semibold">
+                      - All fields must be added
+                    </p>
+                  )}
+                  {hasEmptyItemsArray && (
+                    <p className="text-danger text-[10px] font-semibold">
+                      - An item must be added
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </form>
         </div>
