@@ -1,16 +1,16 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useId } from 'react'
 import { cn } from '@/lib/utils'
 
-export interface Option {
+export interface SelectOption {
   label: string
-  value: number | string
+  value: string | number
 }
 
 interface SelectProps {
   label: string
-  options: Option[]
+  options: SelectOption[]
   value: number | string
   onChange: (value: number | string) => void
   className?: string
@@ -26,21 +26,75 @@ export const Select = ({
   buttonClassName,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Close dropdown when clicking outside
+  // Generate unique IDs for ARIA attributes
+  const uniqueId = useId()
+  const listboxId = `${uniqueId}-listbox`
+  const labelId = `${uniqueId}-label`
+
+  // 1. Sync highlighted index with selected value when opened
+  const handleOpenMenu = () => {
+    const currentIndex = options.findIndex((opt) => opt.value === value)
+    setHighlightedIndex(currentIndex >= 0 ? currentIndex : 0)
+    setIsOpen(true)
+  }
+
+  // 2. Close dropdown if clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleOutsideClick = (e: MouseEvent) => {
       if (
         containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        !containerRef.current.contains(e.target as Node)
       ) {
         setIsOpen(false)
       }
     }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    document.addEventListener('mousedown', handleOutsideClick)
+    return () => document.removeEventListener('mousedown', handleOutsideClick)
   }, [])
+
+  // 3. The core Keyboard Event Engine
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (!isOpen) {
+      // Open the menu on Enter, Space, or Arrow keys
+      if (['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(e.key)) {
+        e.preventDefault()
+        handleOpenMenu()
+      }
+      return
+    }
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setHighlightedIndex((prev) =>
+          prev < options.length - 1 ? prev + 1 : 0
+        )
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : options.length - 1
+        )
+        break
+      case 'Enter':
+      case ' ':
+        e.preventDefault()
+        onChange(options[highlightedIndex].value)
+        setIsOpen(false)
+        break
+      case 'Escape':
+        e.preventDefault()
+        setIsOpen(false)
+        break
+      case 'Tab':
+        setIsOpen(false)
+        break
+    }
+  }
 
   const selectedOption = options.find((opt) => opt.value === value)
 
@@ -49,7 +103,10 @@ export const Select = ({
       className={cn('relative flex flex-col gap-2', className)}
       ref={containerRef}
     >
-      <label className="text-body text-neutral-400 dark:text-neutral-200">
+      <label
+        id={labelId}
+        className="text-body text-neutral-400 dark:text-neutral-200"
+      >
         {label}
       </label>
 
@@ -57,21 +114,30 @@ export const Select = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={handleKeyDown}
+        // ARIA Links
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-controls={listboxId}
+        aria-labelledby={labelId}
+        // Tells the screen reader which item in the list is currently virtually "focused"
+        aria-activedescendant={
+          isOpen && highlightedIndex >= 0
+            ? `${listboxId}-option-${highlightedIndex}`
+            : undefined
+        }
         className={cn(
-          // 1. Base Layout & Typography
           'text-heading-s text-dark-text dark:bg-dark-surface flex w-full items-center justify-between rounded border bg-white px-5 py-4 font-bold transition-colors duration-200 dark:text-white',
           'hover:border-primary focus:border-primary dark:border-dark-hover dark:focus:border-primary border-neutral-200',
           'focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-2',
           isOpen && 'border-primary dark:border-primary',
-
-          // 5. Custom Overrides (always goes last)
           buttonClassName
         )}
       >
-        {selectedOption?.label}
+        <span>{selectedOption?.label || 'Select an option'}</span>
         <svg
           className={cn(
-            'ml-2 transition-transform duration-200',
+            'transition-transform duration-200',
             isOpen && 'rotate-180'
           )}
           width="11"
@@ -88,26 +154,46 @@ export const Select = ({
         </svg>
       </button>
 
-      {/* Dropdown Menu */}
+      {/* Dropdown Menu (Listbox) */}
       {isOpen && (
-        <div className="shadow-dropdown dark:bg-dark-hover absolute top-[calc(100%+8px)] z-20 w-full overflow-hidden rounded-lg bg-white">
-          {options.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => {
-                onChange(option.value)
-                setIsOpen(false)
-              }}
-              className={cn(
-                'text-heading-s text-dark-text hover:text-primary dark:border-dark-bg dark:hover:text-primary w-full border-b border-neutral-200 px-6 py-4 text-left font-bold transition-colors last:border-none dark:text-neutral-200',
-                option.value === value && 'text-primary'
-              )}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+        <ul
+          id={listboxId}
+          role="listbox"
+          aria-labelledby={labelId}
+          // Prevents the wrapper from stealing tab focus
+          tabIndex={-1}
+          className="dark:bg-dark-hover absolute top-[calc(100%+8px)] left-0 z-50 w-full overflow-hidden rounded-lg bg-white shadow-xl"
+        >
+          {options.map((option, index) => {
+            const isSelected = option.value === value
+            const isHighlighted = index === highlightedIndex
+
+            return (
+              <li
+                key={option.value}
+                id={`${listboxId}-option-${index}`}
+                role="option"
+                aria-selected={isSelected}
+                onClick={() => {
+                  onChange(option.value)
+                  setIsOpen(false)
+                }}
+                className={cn(
+                  'text-body cursor-pointer px-6 py-4 font-bold transition-colors',
+                  // Highlighted state replaces hover so keyboard and mouse look the same
+                  isHighlighted
+                    ? 'text-primary dark:text-primary'
+                    : 'text-dark-text dark:text-[#DFE3FA]',
+                  'border-b border-neutral-200/50 last:border-0 dark:border-[#1E2139]'
+                )}
+                // When a mouse user hovers, update the highlighted index so keyboard/mouse stay in sync
+                onMouseEnter={() => setHighlightedIndex(index)}
+              >
+                {option.label}
+              </li>
+            )
+          })}
+        </ul>
       )}
     </div>
   )
